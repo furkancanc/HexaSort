@@ -46,7 +46,7 @@ public class StackController : MonoBehaviour
         }
         else
         {
-            DraggingAboveGridCell();
+            DraggingAboveGridCell(hit);
         }
     }
 
@@ -81,9 +81,27 @@ public class StackController : MonoBehaviour
             Time.deltaTime * 30);
     }
 
-    private void DraggingAboveGridCell()
+    private void DraggingAboveGridCell(RaycastHit hit)
     {
+        GridCell gridCell = hit.collider.GetComponent<GridCell>();
 
+        if (gridCell.IsOccupied)
+        {
+            DraggingAboveGround();
+        }
+        else
+        {
+            DragginAboveNonOccupiedGridCell(gridCell);
+        }
+    }
+
+    private void DragginAboveNonOccupiedGridCell(GridCell gridCell)
+    {
+        Vector3 currentStackTargetPosition = gridCell.transform.position.With(y: 2);
+        currentStack.transform.position = Vector3.MoveTowards(
+           currentStack.transform.position,
+           currentStackTargetPosition,
+           Time.deltaTime * 30);
     }
 
     private Ray GetClickedRay() => Camera.main.ScreenPointToRay(Input.mousePosition);
