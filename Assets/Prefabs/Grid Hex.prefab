@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 534eae1ba9312fd40a6f7b14fac4742b, type: 2}
+  - {fileID: 2100000, guid: fffe83222ac82e642b2d376f71cf83af, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -96,7 +96,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4546334535327586163}
   m_Layer: 0
-  m_Name: Hexagon
+  m_Name: Grid Hex
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
