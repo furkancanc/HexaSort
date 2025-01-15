@@ -756,7 +756,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.3
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -790,7 +790,7 @@ Light:
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_ColorTemperature: 5000
+  m_ColorTemperature: 6000
   m_UseColorTemperature: 1
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
@@ -1652,8 +1652,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stackPositionsParent: {fileID: 877492166}
-  hexagonPrefab: {fileID: 7176922330259388451, guid: f21fce8b65598ec4ab5c7d0bf7153600, type: 3}
+  hexagonPrefab: {fileID: 7362846271472548158, guid: f21fce8b65598ec4ab5c7d0bf7153600, type: 3}
   hexagonStackPrefab: {fileID: 7948810457001015829, guid: b7715dd2c4f5bba4ea628f75d76f735b, type: 3}
+  minMaxHexCount: {x: 2, y: 8}
+  colors:
+  - {r: 0.30588236, g: 0.76470596, b: 1, a: 0}
+  - {r: 1, g: 0.29803923, b: 0.3019608, a: 0}
+  - {r: 0.52156866, g: 0.80392164, b: 0, a: 0}
 --- !u!4 &1144309208
 Transform:
   m_ObjectHideFlags: 0
