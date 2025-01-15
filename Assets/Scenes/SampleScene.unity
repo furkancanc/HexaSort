@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 128064867}
   - component: {fileID: 128064866}
   - component: {fileID: 128064865}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Ground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3082,6 +3082,12 @@ MonoBehaviour:
   hexagonLayerMask:
     serializedVersion: 2
     m_Bits: 128
+  gridHexagonLayerMask:
+    serializedVersion: 2
+    m_Bits: 512
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &2132628731
 GameObject:
   m_ObjectHideFlags: 0
