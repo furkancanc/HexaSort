@@ -14,6 +14,9 @@ public class StackController : MonoBehaviour
     [Header(" Data ")]
     private GridCell targetCell;
 
+    [Header(" Actions ")]
+    public static Action<GridCell> onStackPlaced;
+
     private void Update()
     {
         ManageControl();
@@ -48,6 +51,8 @@ public class StackController : MonoBehaviour
         currentStack.Place();
 
         targetCell.AssignStack(currentStack);
+
+        onStackPlaced?.Invoke(targetCell);
 
         targetCell = null;
         currentStack = null;
