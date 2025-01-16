@@ -8,4 +8,9 @@ public class GridCell : MonoBehaviour
         get => stack != null;
         private set { }
     }
+
+    public void AssignStack(HexStack stack)
+    {
+        this.stack = stack;
+    }
 }

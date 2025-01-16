@@ -4,6 +4,7 @@ public class Hexagon : MonoBehaviour
 {
     [Header(" Elements ")]
     [SerializeField] private new Renderer renderer;
+    [SerializeField] private new Collider collider;
     public HexStack HexStack { get; private set; }
     public Color Color
     {
@@ -16,4 +17,8 @@ public class Hexagon : MonoBehaviour
         HexStack = hexStack;
     }
 
+    public void DisableCollider()
+    {
+        collider.enabled = false;
+    }
 }

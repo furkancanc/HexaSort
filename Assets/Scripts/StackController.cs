@@ -10,6 +10,10 @@ public class StackController : MonoBehaviour
 
     private HexStack currentStack;
     private Vector3 currentStackInitialPosition;
+
+    [Header(" Data ")]
+    private GridCell targetCell;
+
     private void Update()
     {
         ManageControl();
@@ -32,7 +36,21 @@ public class StackController : MonoBehaviour
     }
     private void ManageMouseUp()
     {
-        
+        if (targetCell == null)
+        {
+            currentStack.transform.position = currentStackInitialPosition;
+            currentStack = null;
+            return;
+        }
+
+        currentStack.transform.position = targetCell.transform.position.With(y: .2f);
+        currentStack.transform.SetParent(targetCell.transform);
+        currentStack.Place();
+
+        targetCell.AssignStack(currentStack);
+
+        targetCell = null;
+        currentStack = null;
     }
 
     private void ManageMouseDrag()
@@ -79,6 +97,8 @@ public class StackController : MonoBehaviour
             currentStack.transform.position,
             currentStackTargetPosition, 
             Time.deltaTime * 30);
+
+        targetCell = null;
     }
 
     private void DraggingAboveGridCell(RaycastHit hit)
@@ -102,6 +122,8 @@ public class StackController : MonoBehaviour
            currentStack.transform.position,
            currentStackTargetPosition,
            Time.deltaTime * 30);
+
+        targetCell = gridCell;
     }
 
     private Ray GetClickedRay() => Camera.main.ScreenPointToRay(Input.mousePosition);

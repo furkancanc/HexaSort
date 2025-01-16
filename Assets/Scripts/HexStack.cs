@@ -17,4 +17,12 @@ public class HexStack : MonoBehaviour
         Hexagons.Add(hexagon);
     }
 
+    public void Place()
+    {
+        foreach(Hexagon hexagon in Hexagons)
+        {
+            hexagon.DisableCollider();
+        }
+    }
+
 }

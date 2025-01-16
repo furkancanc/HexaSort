@@ -133,6 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   renderer: {fileID: 3164630028220557028}
+  collider: {fileID: 6950939398906394163}
 --- !u!64 &6950939398906394163
 MeshCollider:
   m_ObjectHideFlags: 0
