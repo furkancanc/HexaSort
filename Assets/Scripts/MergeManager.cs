@@ -17,7 +17,54 @@ public class MergeManager : MonoBehaviour
 
     private void StackPlacedCallback(GridCell gridCell)
     {
-        // Does this cell has neighbors?
+        List<GridCell> neighborGridCells = GetNeighborGridCells(gridCell); 
+
+        if (neighborGridCells.Count <= 0)
+        {
+            Debug.Log("No neighbors for this cell");
+            return;
+        }
+
+        // At this point, we have a list of the neighbor grid cells, that are occupied
+        Color gridCellTopHexagonColor = gridCell.Stack.GetTopHexagonColor();
+
+        List<GridCell> similarNeighborGridCells = GetSimilarNeighborGridCells(gridCellTopHexagonColor, neighborGridCells.ToArray());
+
+        if (similarNeighborGridCells.Count <= 0)
+        {
+            Debug.Log("No similar neighbors for this cell");
+            return;
+        }
+
+        // At this point, we have a list of similar neighbors
+        List<Hexagon> hexagonsToAdd = GetHexagonsToAdd(gridCellTopHexagonColor, similarNeighborGridCells.ToArray());
+
+        // Remove the hexagons from their stacks
+        RemoveHexagonsFromStacks(hexagonsToAdd, similarNeighborGridCells.ToArray());
+
+        // At this point, we have removed the stacks we don't need anymore
+        // We have some free grid cells
+
+        MoveHexagons(gridCell, hexagonsToAdd);
+
+        // Do these neighbors have the same top hex color?
+
+        // We need to merge !
+
+        // Merge everything inside of this cell
+
+        // Is the stack on this cell complete?
+        // Does it have 10 or more similar hexagons?
+        CheckForCompleteStack(gridCell, gridCellTopHexagonColor);
+
+        // Check the updated cells ?
+        // Repeat
+
+
+    }
+
+    private List<GridCell> GetNeighborGridCells(GridCell gridCell)
+    {
         LayerMask gridCellMask = 1 << gridCell.gameObject.layer;
 
         List<GridCell> neighborGridCells = new List<GridCell>();
@@ -36,15 +83,11 @@ public class MergeManager : MonoBehaviour
             neighborGridCells.Add(neighborGridCell);
         }
 
-        if (neighborGridCells.Count <= 0)
-        {
-            Debug.Log("No neighbors for this cell");
-            return;
-        }
+        return neighborGridCells;
+    }
 
-        // At this point, we have a list of the neighbor grid cells, that are occupied
-        Color gridCellTopHexagonColor = gridCell.Stack.GetTopHexagonColor();
-
+    private List<GridCell> GetSimilarNeighborGridCells(Color gridCellTopHexagonColor, GridCell[] neighborGridCells)
+    {
         List<GridCell> similarNeighborGridCells = new List<GridCell>();
 
         foreach (GridCell neighborGridCell in neighborGridCells)
@@ -57,13 +100,11 @@ public class MergeManager : MonoBehaviour
             }
         }
 
-        if (similarNeighborGridCells.Count <= 0)
-        {
-            Debug.Log("No similar neighbors for this cell");
-            return;
-        }
+        return similarNeighborGridCells;
+    }
 
-        // At this point, we have a list of similar neighbors
+    private List<Hexagon> GetHexagonsToAdd(Color gridCellTopHexagonColor, GridCell[] similarNeighborGridCells)
+    {
         List<Hexagon> hexagonsToAdd = new List<Hexagon>();
 
         foreach (GridCell neighborCell in similarNeighborGridCells)
@@ -83,7 +124,11 @@ public class MergeManager : MonoBehaviour
             }
         }
 
-        // Remove the hexagons from their stacks
+        return hexagonsToAdd;
+    }
+
+    private void RemoveHexagonsFromStacks(List<Hexagon> hexagonsToAdd, GridCell[] similarNeighborGridCells)
+    {
         foreach (GridCell neighborCell in similarNeighborGridCells)
         {
             HexStack stack = neighborCell.Stack;
@@ -96,10 +141,10 @@ public class MergeManager : MonoBehaviour
                 }
             }
         }
+    }
 
-        // At this point, we have removed the stacks we don't need anymore
-        // We have some free grid cells
-
+    private void MoveHexagons(GridCell gridCell, List<Hexagon> hexagonsToAdd)
+    {
         float initialY = gridCell.Stack.Hexagons.Count * .2f;
 
         for (int i = 0; i < hexagonsToAdd.Count; ++i)
@@ -113,19 +158,37 @@ public class MergeManager : MonoBehaviour
             hexagon.transform.localPosition = targetLocalPosition;
 
         }
+    }
 
-        // Do these neighbors have the same top hex color?
+    private void CheckForCompleteStack(GridCell gridCell, Color topColor)
+    {
+        if (gridCell.Stack.Hexagons.Count < 10) return;
 
-        // We need to merge !
+        List<Hexagon> similarHexagons = new List<Hexagon>();
 
-        // Merge everything inside of this cell
+        for (int i = gridCell.Stack.Hexagons.Count - 1; i >= 0; --i)
+        {
+            Hexagon hexagon = gridCell.Stack.Hexagons[i];
+            if (hexagon.Color != topColor)
+            {
+                break;
+            }
 
-        // Is the stack on this cell complete?
-        // Does it have 10 or more similar hexagons?
+            similarHexagons.Add(hexagon);
+        }
 
-        // Check the updated cells ?
-        // Repeat
+        // At this point, we have list of similar hexagons
+        // How many?
+        if (similarHexagons.Count < 10) return;
 
+        while (similarHexagons.Count > 0)
+        {
+            similarHexagons[0].SetParent(null);
+            DestroyImmediate(similarHexagons[0].gameObject);
 
+            gridCell.Stack.Remove(similarHexagons[0]);
+            similarHexagons.RemoveAt(0);
+        }
     }
 }
+
