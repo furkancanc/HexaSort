@@ -25,4 +25,10 @@ public class HexStack : MonoBehaviour
         }
     }
 
+    public Color GetTopHexagonColor()
+    {
+        //return Hexagons[Hexagons.Count - 1];
+        return Hexagons[^1].Color;
+    }
+
 }
