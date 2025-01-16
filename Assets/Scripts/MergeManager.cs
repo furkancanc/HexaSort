@@ -29,17 +29,62 @@ public class MergeManager : MonoBehaviour
         {
             GridCell neighborGridCell = gridCellCollider.GetComponent<GridCell>();
 
-            if (neighborGridCell.IsOccupied) continue;
+            if (!neighborGridCell.IsOccupied) continue;
 
             if (neighborGridCell == gridCell) continue;
 
             neighborGridCells.Add(neighborGridCell);
         }
 
+        if (neighborGridCells.Count <= 0)
+        {
+            Debug.Log("No neighbors for this cell");
+            return;
+        }
+
         // At this point, we have a list of the neighbor grid cells, that are occupied
         Color gridCellTopHexagonColor = gridCell.Stack.GetTopHexagonColor();
 
-        Debug.Log(gridCellTopHexagonColor);
+        List<GridCell> similarNeighborGridCells = new List<GridCell>();
+
+        foreach (GridCell neighborGridCell in neighborGridCells)
+        {
+            Color neighborGridCellTopHexagaonColor = neighborGridCell.Stack.GetTopHexagonColor();
+
+            if (gridCellTopHexagonColor == neighborGridCellTopHexagaonColor)
+            {
+                similarNeighborGridCells.Add(neighborGridCell);
+            }
+        }
+
+        if (similarNeighborGridCells.Count <= 0)
+        {
+            Debug.Log("No similar neighbors for this cell");
+            return;
+        }
+
+        // At this point, we have a list of similar neighbors
+        List<Hexagon> hexagonsToAdd = new List<Hexagon>();
+
+        foreach (GridCell neighborCell in similarNeighborGridCells)
+        {
+            HexStack neighborCellHexStack = neighborCell.Stack;
+
+            for (int i = neighborCellHexStack.Hexagons.Count - 1; i >= 0; --i)
+            {
+                Hexagon hexagon = neighborCellHexStack.Hexagons[i];
+                if (hexagon.Color != gridCellTopHexagonColor)
+                {
+                    break;
+                }
+
+                hexagonsToAdd.Add(hexagon);
+                hexagon.SetParent(null);
+            }
+        }
+
+        Debug.Log($"We need to add {hexagonsToAdd.Count}");
+
         // Do these neighbors have the same top hex color?
 
         // We need to merge !

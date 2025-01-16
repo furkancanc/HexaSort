@@ -21,4 +21,9 @@ public class Hexagon : MonoBehaviour
     {
         collider.enabled = false;
     }
+
+    public void SetParent(Transform parent)
+    {
+        transform.SetParent(parent);
+    }
 }
