@@ -83,7 +83,36 @@ public class MergeManager : MonoBehaviour
             }
         }
 
-        Debug.Log($"We need to add {hexagonsToAdd.Count}");
+        // Remove the hexagons from their stacks
+        foreach (GridCell neighborCell in similarNeighborGridCells)
+        {
+            HexStack stack = neighborCell.Stack;
+
+            foreach (Hexagon hexagon in hexagonsToAdd)
+            {
+                if (stack.Contains(hexagon))
+                {
+                    stack.Remove(hexagon);
+                }
+            }
+        }
+
+        // At this point, we have removed the stacks we don't need anymore
+        // We have some free grid cells
+
+        float initialY = gridCell.Stack.Hexagons.Count * .2f;
+
+        for (int i = 0; i < hexagonsToAdd.Count; ++i)
+        {
+            Hexagon hexagon = hexagonsToAdd[i];
+
+            float targetY = initialY + i * .2f;
+            Vector3 targetLocalPosition = Vector3.up * targetY;
+
+            gridCell.Stack.Add(hexagon);
+            hexagon.transform.localPosition = targetLocalPosition;
+
+        }
 
         // Do these neighbors have the same top hex color?
 
