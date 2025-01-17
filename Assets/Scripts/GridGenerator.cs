@@ -1,6 +1,8 @@
 using NaughtyAttributes;
 using UnityEngine;
 
+#if UNITY_EDITOR
+using UnityEditor;
 public class GridGenerator : MonoBehaviour
 {
     [Header(" Elements ")]
@@ -26,8 +28,14 @@ public class GridGenerator : MonoBehaviour
                     continue;
                 }
 
-                Instantiate(hexagon, spawnPosition, Quaternion.identity, transform);
+                GameObject gridHexInstance = (GameObject)PrefabUtility.InstantiatePrefab(hexagon);
+                gridHexInstance.transform.position = spawnPosition;
+                gridHexInstance.transform.rotation = Quaternion.identity;
+                gridHexInstance.transform.SetParent(transform);
+
+                //Instantiate(hexagon, spawnPosition, Quaternion.identity, transform);
             }
         }
     }
 }
+#endif

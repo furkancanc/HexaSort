@@ -7,6 +7,16 @@ public class HexStack : MonoBehaviour
 {
     public List<Hexagon> Hexagons { get; private set; }
 
+    public void Initialize()
+    {
+        for (int i = 0; i < transform.childCount; ++i)
+        {
+            Add(transform.GetChild(i).GetComponent<Hexagon>());
+        }
+
+        Place();
+    }
+
     public void Add(Hexagon hexagon)
     {
         if (Hexagons == null)

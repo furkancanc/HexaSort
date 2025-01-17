@@ -17,6 +17,14 @@ public class GridCell : MonoBehaviour
         private set { }
     }
 
+    private void Start()
+    {
+        if (hexagonColors.Length > 0)
+        {
+            GenerateInitialHexagons();
+        }
+    }
+
     public void AssignStack(HexStack stack)
     {
         Stack = stack;

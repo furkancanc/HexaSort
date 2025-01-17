@@ -154,3 +154,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7a18c602d9345d47a2af772d2f36b96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hexagonPrefab: {fileID: 7362846271472548158, guid: f21fce8b65598ec4ab5c7d0bf7153600, type: 3}
+  hexagonColors: []
